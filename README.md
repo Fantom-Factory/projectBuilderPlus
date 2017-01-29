@@ -5,7 +5,19 @@ This README would normally document whatever steps are necessary to get your app
 ### What is this repository for? ###
 This source is for Project Builder Plus as an open source to the project haystack community.
 
+We have videos located here.  http://wiki.bassg.com/display/PBP
 
+Connect with obix to Niagara generate haystack DB and push DB to SkySpark
+
+Generate nHaystack import DB and push to SkySpark.
+
+Use cases of this application can further improve the project haystack usage and tooling within the IoT industry.
+
+Licensing is Academic 3.0. Feel free to clone branch add remove create anything with this code.
+
+If you are using haystack please consider signing up to Project-Haystack.org become a member pay dues, be a sponsor at haystack connect conference.
+
+If you really like what we have done here, you can pay our dues for Project Haystack too. :D
 
 
 ### How do I get set up? ###
