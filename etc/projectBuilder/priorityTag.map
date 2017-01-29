@@ -1,0 +1,26 @@
+[sys::Obj:sys::Obj?]["kind":pbpcore::StrTag
+{
+name="kind"
+val=""
+kind="Str"
+},"navName":pbpcore::StrTag
+{
+name="navName"
+val="AHU"
+kind="Str"
+},"equipRef":pbpcore::RefTag
+{
+name="equipRef"
+val=null
+kind="Ref"
+},"dis":pbpcore::StrTag
+{
+name="dis"
+val="Richmond - AHU-1 - OASTPT"
+kind="Str"
+},"equipNum":pbpcore::NumTag
+{
+name="equipNum"
+val="1"
+kind="Num"
+}]

@@ -1,0 +1,19 @@
+
+
+addConn.name=Add Skyspark Connection
+addConn.icon=fan://pbpi/res/img/skysparkTabAdd24.png
+
+delConn.name=Delete Skyspark Connection
+delConn.icon=fan://pbpi/res/img/skysparkTabRemove24.png
+
+downloadProjectCommand.name=Download Skyspark Project
+downloadProjectCommand.icon=fan://pbpi/res/img/skysparkTabRemove24.png
+
+editConnCommand.name=Edit Skyspark Conn
+editConnCommand.icon=fan://pbpi/res/img/skysparkTabEdit24.png
+
+uploadProjectCommand.name=Upload Project to Skyspark
+uploadProjectCommand.icon=fan://pbpi/res/img/skysparkTabUp24.png
+
+syncSkysparkCommand.name=Sync Skyspark Project
+syncSkysparkCommand.icon= fan://pbpi/res/img/skysparkSync_24_24_32.png //TODO: Sync Icon

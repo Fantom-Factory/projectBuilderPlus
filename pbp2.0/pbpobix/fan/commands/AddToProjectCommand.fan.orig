@@ -1,0 +1,66 @@
+using fwt
+using gfx
+using obix
+using pbpcore
+using pbpgui
+using projectBuilder
+
+class AddToProjectCommand : Command
+{
+  ObixConnManager manager
+  new make(ObixConnManager manager) : super.makeLocale(Pod.of(this), "addToProject")
+  {
+    this.manager = manager
+  }
+
+  override Void invoked(Event? e)
+  {
+    ObixTableModel obixModel := manager.obixTable->model
+    PbpObixConn conn := manager.tree.model->conn
+    ObixItem[] importantItems := [,]
+    manager.tree.selected.each |node|
+    {
+      ObixItem? targetItem := node as ObixItem
+      if(targetItem.obj.contract.toStr.contains("obix:Point"))
+      {
+        importantItems.push(targetItem)
+      }
+      if(targetItem.obj.contract.toStr.contains("obix:History"))
+      {
+        importantItems.push(targetItem)
+      }
+    }
+
+    ObixMapperWindow window := ObixMapperWindow(e.window, manager, importantItems)
+    ActorPeon searcher := ActorPeon(window.statusHandler.pool){
+      config = SearchForHistoryConfig()
+      options = ["streetcred":[Uri(conn.host),conn.user,conn.plainPassword],"statusHandler":window.statusHandler]
+    }
+    importantItems.findAll |ObixItem item -> Bool|{return item.obj.contract.toStr.contains("obix:Point")}.each |point|
+    {
+      searcher.send(point.obj.normalizedHref)
+    }
+    recs := window.open
+    if(recs==null){return }
+    resp := Dialog.openInfo(e.window,"Are you sure you would like to continue?",null,Dialog.yesNo)
+    if(resp==Dialog.no){return}
+
+
+    ProgressWindow progressWindow := ProgressWindow(e.window, window.statusHandler.pool)
+    DatabaseThread dbthread := manager.pbp.currentProject.database.getThreadSafe(recs->size, progressWindow.phandler, window.statusHandler.pool)
+    recs->each |rec|
+    {
+      dbthread.send([DatabaseThread.SAVE,rec])
+    }
+    progressWindow.open()
+    window.statusHandler.pool.stop()
+    window.statusHandler.pool.join()
+    manager.pbp.currentProject.database.unlock()
+    PbpWorkspace pbpwrapper := PbpWorkspace(manager.pbp)
+    pbpwrapper.pointTable.model->update(manager.pbp.currentProject.database.getClassMap(pbpcore::Point#))
+    pbpwrapper.pointTable.refreshAll
+    //DatabaseThread here
+  }
+}
+
+

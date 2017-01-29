@@ -1,0 +1,6 @@
+taggingCommand.name=Tagging
+// taggingCommand.icon=fan://pbpexport/res/img/xxx_24_24_32.png
+taggingCommand.accelerator=Ctrl+M
+
+//suggestCommand.accelerator=Ctrl+Space
+suggestCommand.accelerator=Ctrl+F

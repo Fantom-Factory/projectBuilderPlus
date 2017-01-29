@@ -1,0 +1,33 @@
+pbpdishandler::DisFunc
+{
+displayName="Return Air Damper"
+rules=[pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="damper"
+val=""
+kind="Marker"
+}
+},pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="return"
+val=""
+kind="Marker"
+}
+}]
+applies=[pbpdishandler::DisApplyTag
+{
+tagToFind=pbpcore::RefTag
+{
+name="equipRef"
+val=haystack::Ref("")
+kind="Ref"
+}
+},pbpdishandler::DisApplyUser
+{
+valueToApply="Return Air Damper"
+}]
+}

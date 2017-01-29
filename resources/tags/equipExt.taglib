@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <air val='' kind='Marker'/>
+ <area val='' kind='Number'/>
+ <cmd val='' kind='Marker'/>
+ <domestic val='' kind='Marker'/>
+ <elec val='' kind='Marker'/>
+ <enable val='' kind='Marker'/>
+ <equip val='' kind='Marker'/>
+ <equipRef val='' kind='Ref'/>
+ <fan val='' kind='Marker'/>
+ <freq val='' kind='Marker'/>
+ <gas val='' kind='Marker'/>
+ <hot val='' kind='Marker'/>
+ <occupied val='' kind='Marker'/>
+ <primaryFunction val='' kind='Str'/>
+ <pump val='' kind='Marker'/>
+ <run val='' kind='Marker'/>
+ <runtime val='' kind='Marker'/>
+ <sensor val='' kind='Marker'/>
+ <site val='' kind='Marker'/>
+ <sitePoint val='' kind='Marker'/>
+ <siteAccessFilter val='' kind='Str'/>
+ <siteGroupBy val='' kind='Str'/>
+ <siteRef val='' kind='Ref'/>
+ <sp val='' kind='Marker'/>
+ <speed val='' kind='Marker'/>
+ <steam val='' kind='Marker'/>
+ <vfd val='' kind='Marker'/>
+ <water val='' kind='Marker'/>
+ <yearBuilt val='' kind='Number'/>
+</taglib>

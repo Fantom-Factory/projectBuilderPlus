@@ -1,0 +1,22 @@
+sqlAboutWindow.name=About
+sqlAboutWindow.icon=fan://pbpi/res/img/pbpIcon64.png
+
+AddRegexRule.name=Add Regex Rule
+
+AddStrMatchRule.name=Add Str Match Rule
+
+newSqlPackage.name=New Sql Package
+
+addTagsToRule.name=Add Tags
+//TODO: ALPER addTagsToRule.icon=
+
+saveSqlPackage.name=Save
+//TODO: Alper saveSqlPackage.icon=
+
+testSqlPackage.name=Test
+//TODO: ALper testSqlPackage.icon=
+
+deploySqlPackage.name=Deploy Sql Package
+
+deploySchemeSqlPackage.name=Create Deployment Scheme
+//281x222

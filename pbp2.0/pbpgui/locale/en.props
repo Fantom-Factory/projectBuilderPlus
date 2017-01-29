@@ -1,0 +1,10 @@
+progressWindow.name=Job Progress
+progressWindow.icon=fan://pbpi/res/img/pbpIcon16.png
+
+multiEditTemplateProperties.name=Edit Category
+
+editTagsInLib.name=
+editTagsInLib.icon=fan://icons/x16/circleArrowLeft.png
+
+delTagFromLib.name=Delete Tag
+delTagFromLib.icon= fan://pbpi/res/img/removeAny24.png

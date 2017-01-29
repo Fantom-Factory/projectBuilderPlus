@@ -1,0 +1,33 @@
+pbpdishandler::DisFunc
+{
+displayName="Return Temp"
+rules=[pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="temp"
+val=""
+kind="Marker"
+}
+},pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="return"
+val=""
+kind="Marker"
+}
+}]
+applies=[pbpdishandler::DisApplyTag
+{
+tagToFind=pbpcore::RefTag
+{
+name="equipRef"
+val=haystack::Ref("")
+kind="Ref"
+}
+},pbpdishandler::DisApplyUser
+{
+valueToApply="Return Temp"
+}]
+}

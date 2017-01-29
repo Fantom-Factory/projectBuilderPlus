@@ -1,0 +1,19 @@
+ResetNavNameFunction.name=Reset NavName Function
+
+MakeNavNameFunction.name=Make NavName Function
+
+NewFunction.name=New Function
+
+EditFunction.name=Edit Function
+
+functionEditor.name=Display Name Handler
+
+executeFunction.name=Execute selected functions
+
+deleteFunction.name=Delete Function
+
+moveUp.name=Move up
+moveDown.name=Move down
+
+addTag.name=
+addTag.icon=fan://icons/x16/circleArrowLeft.png

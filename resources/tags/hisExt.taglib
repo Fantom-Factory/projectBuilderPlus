@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <his val='' kind='Marker'/>
+ <hisEnd val='' kind='DateTime'/>
+ <hisEndVal val='' kind=''/>
+ <hisFunc val='' kind='Str'/>
+ <hisId val='' kind='Str'/>
+ <hisInterpolate val='' kind='Str'/>
+ <hisInterval val='' kind='Number'/>
+ <hisOnWrite val='' kind='Str'/>
+ <hisRef val='' kind='Ref'/>
+ <hisRollup val='' kind='Str'/>
+ <hisRollupDis val='' kind='Str'/>
+ <hisRollupFunc val='' kind='Str'/>
+ <hisSize val='' kind='Number'/>
+ <hisSrc val='' kind='Marker'/>
+ <hisStart val='' kind='DateTime'/>
+ <hisTotalized val='' kind='Marker'/>
+ <hisTotalizedRollover val='' kind='Number'/>
+ <hisTsPrecision val='' kind='Number'/>
+ <periods val='' kind='Str'/>
+</taglib>

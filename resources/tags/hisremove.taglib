@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <obixHis val='' kind='Uri'/>
+ <obixSyncHisStatus val='' kind='Str'/>
+ <obixSyncHisTime val='' kind='DateTime'/>
+ <obixConnRef val='' kind='Ref'/>
+ <obixSyncHisGroup val='' kind='Str'/>
+ <hisEnd val='' kind='DateTime'/>
+ <hisEndVal val='' kind='Num'/>
+ <hisSize val='' kind='Num'/>
+ <hisStart val='' kind='DateTime'/>
+ <hisStatus val='' kind='Str'/>
+ <hisYear11 val='' kind='Ref'/>
+ <hisYear12 val='' kind='Ref'/>
+ <hisYear13 val='' kind='Ref'/>
+</taglib>

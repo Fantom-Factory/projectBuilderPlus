@@ -1,0 +1,8 @@
+
+incrementCommand.name=Increment
+incrementCommand.icon=fan://pbptools/res/img/increment24.png
+//incrementCommand.accelerator=
+
+mapCommand.name=Map
+//mapCommand.icon=fan://pbptools/res/img/map24.png TODO: create button graphics
+//mapCommand.accelerator=

@@ -1,0 +1,18 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2012, BAS Services & Graphics, LLC.
+// Licensed under the Academic Free License version 3.0
+//
+/////////////////////////////////////////////////////////////////////////////
+
+using spui
+
+class SqlOpt : Opt
+{
+  new make(|This| f) : super(f){}
+
+  override Str getDis()
+  {
+    return opts[0]
+  }
+}

@@ -1,0 +1,22 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2012, BAS Services & Graphics, LLC.
+// Licensed under the Academic Free License version 3.0
+//
+/////////////////////////////////////////////////////////////////////////////
+
+
+enum class CID
+{
+  REMOVETAG,
+  ADDTAG,
+  MODTAG,
+  REMOVE,
+  ADD,
+  GET,
+  SAVE,
+  MULTIADD,
+  BIGEDIT,
+  MOD,
+  INIT
+}

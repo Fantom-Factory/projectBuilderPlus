@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <calendar val='' kind='Str'/>
+ <calendarRef val='' kind='Ref'/>
+ <nextTime val='' kind='DateTime'/>
+ <nextVal val='' kind=''/>
+ <schedule val='' kind='Str'/>
+ <scheduleRef val='' kind='Ref'/>
+ <schedulable val='' kind='Number'/>
+</taglib>

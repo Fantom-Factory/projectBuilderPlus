@@ -1,0 +1,17 @@
+
+
+startService.name=Start Service
+//startService.icon=
+
+stopService.name=Stop Service
+//stopService.icon=
+
+openAirshipWindow.name=Configure
+//openAirshipWindow.icon=
+
+aboutPbpAirship.name=SQL Service
+//aboutPbpAirship.icon=
+
+newSender.name=New Sender
+newReceiver.name=New Receiver
+registerDeliveries.name=Register Delivery

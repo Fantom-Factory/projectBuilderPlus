@@ -1,0 +1,73 @@
+using haystack
+using util
+
+class Tree
+{
+
+  TreeNode root
+  Str:TreeNode treeMap := [:]
+  Str projectName
+  virtual Str prefix := "tree"
+
+  new make(Ref root, Str projectName)
+  {
+    this.root = TreeNode{it.id = root; children = [,]}
+    this.projectName = projectName
+    treeMap.add(root.toStr,this.root)
+  }
+
+  **
+  ** Save's the tree in Json format to the correct project directory
+  **
+  Void save()
+  {
+    map := ["root":root]
+    targetfileout := FileUtil.getTreeDir(projectName).createFile("${prefix}.tree").out
+    JsonOutStream(targetfileout).writeJson(map).close
+    targetfileout.close
+  }
+
+
+  **
+  ** Inserts a node at a selected tree node.
+  **
+  virtual Void insert(Ref parent, Ref child)
+  {
+    treeMap.add(child.toStr,treeMap[parent.toStr].add(child))
+  }
+
+
+
+  **
+  ** Creates a tree from a given tree file (Formatted in Json style)
+  **
+  @Transient
+  static Tree fromJson(File jsonfile, Str projectName)
+  {
+     InStream jsonfilein := jsonfile.in
+     Str:Obj? data := JsonInStream(jsonfilein).readJson
+     jsonfilein.close
+     switch(jsonfile.basename)
+     {
+     case "Sep":
+     SepTree newTree := SepTree(Ref.fromStr(data["root"]->get("id")), projectName)
+     TreeNode[] thechildren := [,]
+     data["root"]->get("children")->each |child|
+       {
+       thechildren.push(TreeNode.fromJson(child))
+       }
+       newTree.root.children = thechildren
+       return newTree
+     default:
+     Tree newTree := Tree(Ref.fromStr(data["root"]->get("id")), projectName)
+     TreeNode[] thechildren := [,]
+     data["root"]->get("children")->each |child|
+       {
+       thechildren.push(TreeNode.fromJson(child))
+       }
+       newTree.root.children = thechildren
+       return newTree
+     }
+  }
+
+}

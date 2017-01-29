@@ -1,0 +1,21 @@
+
+/*
+class Main
+{
+
+Void main()
+{
+ Console newconsole := Console(SqlConsole())
+ newconsole.openView
+}
+}
+
+internal class SqlConsole : ConsoleManager
+{
+  override File sessionDirectory := Env.cur.homeDir
+  override Str name := "Sql"
+}
+<<<<<<< local
+*/=======
+*/
+>>>>>>> other

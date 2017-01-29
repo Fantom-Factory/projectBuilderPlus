@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <cur val='' kind='Marker'/>
+ <curErr val='' kind='Str'/>
+ <curStatus val='' kind='Str'/>
+ <curTracksWrite val='' kind='Marker'/>
+ <curVal val='' kind=''/>
+ <enum val='' kind='Str'/>
+ <enumMeta val='' kind='Marker'/>
+ <hisCollectCov val='' kind=''/>
+ <hisCollectInterval val='' kind=''/>
+ <hisErr val='' kind='Str'/>
+ <hisStatus val='' kind='Str'/>
+ <maxVal val='' kind='Number'/>
+ <minVal val='' kind='Number'/>
+ <point val='' kind='Marker'/>
+ <pointRef val='' kind='Ref'/>
+ <writable val='' kind='Marker'/>
+ <writeErr val='' kind='Str'/>
+ <writeLevel val='' kind='Number'/>
+ <writeStatus val='' kind='Str'/>
+ <writeVal val='' kind=''/>
+</taglib>

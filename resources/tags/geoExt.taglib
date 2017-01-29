@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <geo val='' kind='Marker'/>
+ <geoAddr val='' kind='Str'/>
+ <geoCity val='' kind='Str'/>
+ <geoCounty val='' kind='Str'/>
+ <geoCountry val='' kind='Str'/>
+ <geoCoord val='' kind='Coord'/>
+ <geoPostalCode val='' kind='Str'/>
+ <geoRoute val='' kind='Str'/>
+ <geoState val='' kind='Str'/>
+ <geoStreet val='' kind='Str'/>
+</taglib>

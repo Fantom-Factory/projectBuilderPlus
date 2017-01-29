@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <equipNum val='' kind='Num'/>
+ <obixConnRef val='' kind='Ref'/>
+ <obixHis val='' kind='Str'/>
+</taglib>

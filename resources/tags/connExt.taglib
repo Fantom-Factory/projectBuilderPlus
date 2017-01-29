@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <actorTimeout val='' kind='Number'/>
+ <connErr val='' kind='Str'/>
+ <connLinger val='' kind='Number'/>
+ <connPingFreq val='' kind='Number'/>
+ <connState val='' kind='Str'/>
+ <connStatus val='' kind='Str'/>
+ <connTuning val='' kind='Marker'/>
+ <connTuningRef val='' kind='Ref'/>
+ <curCalibration val='' kind='Number'/>
+ <curConvert val='' kind='Str'/>
+ <hisConvert val='' kind='Str'/>
+ <writeConvert val='' kind='Str'/>
+</taglib>

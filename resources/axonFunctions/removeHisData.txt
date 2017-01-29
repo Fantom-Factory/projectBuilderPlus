@@ -1,0 +1,6 @@
+() => do
+  readAll(point).each point => do 
+    commit(diff(point, {-hisEnd, -hisSize, -hisStart, -hisYear12, -hisYear13, -hisEndValue}))
+  end
+  return "Done" 
+end

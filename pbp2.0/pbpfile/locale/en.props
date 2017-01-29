@@ -1,0 +1,15 @@
+addToProject.name=
+addToProject.icon=fan://icons/x16/circleArrowRight.png   //C:\dev3\fan\refactored_pbp\pbpicons\res\img\fileAdd_24_24_32.png
+
+addObixTagsToRec.name=
+addObixTagsToRec.icon=fan://icons/x16/circleArrowRight.png
+
+
+fileAdd.name = Add File Source
+fileAdd.icon = fan://pbpi/res/img/fileAdd_24_24_32.png
+
+
+fileRemove.name = Remove File Source
+fileRemove.icon = fan://pbpi/res/img/fileRemove_24_24_32.png
+
+

@@ -1,0 +1,478 @@
+using xml
+using haystack
+using pbpcore
+using fwt
+using gfx
+using pbplogging
+using projectBuilder
+using web::WebClient
+
+class SkysparkConn : Conn
+{
+  private const Str secret := "dsfudh%^%&RFggds1152321771234gIY*&658&TT*GGIKbbdlcud897ruuoiy"
+  
+  override Str dis
+  override Str? projectName // warning: never set or used !
+  override Str[] prefixes := ["http://"]
+  override Str user := ""
+  override Str host := ""
+  private Str? pass
+  public Bool status
+  private Client? client
+  const Str ext := "skyconn"
+
+  new make(Str dis, Str host, Str user, Str pass)
+  {
+    this.dis = dis
+    this.host = host
+    this.user = user
+    this.pass = pass
+    try
+    {
+      connect
+      testConn
+    }
+    catch(Err err)
+    {
+      Logger.log.err("Error connecting to Skyspark Database", err)
+      Dialog.openErr(Desktop.focus.window,"Error connecting to Skyspark Database",InsetPane{Label{text=err.traceToStr},})
+    }
+  }
+
+  **
+  ** Connect to the skyspark server.
+  **
+  override Obj? connect()
+  {
+    client = Client.open(host.toUri,user,pass)
+    return this
+  }
+
+  ** Check wether allowed to connect according to SAS lciense
+  ** will throw exceptions if it fails
+  Void checkSas()
+  {
+    try
+    {  
+        sc := SkysparkClient.open(host.toUri, user, pass)
+        sc.validateSas(secret)
+    }
+    catch(Err e)
+    {    
+        client = null
+        throw(e)  
+    }
+  }     
+
+
+  **
+  ** Test connection.. could throw AuthErr if wrong credentials... or IOErr if no internet etc.
+  **
+  override Bool testConn()
+  {
+    try
+    {
+      if(client != null)
+      {
+        client.ping
+      }
+      checkSas
+    }
+    catch(AuthErr err)
+    {
+      //TODO:: log here.
+      Logger.log.err("Test connection error", err)
+      Dialog.openErr(null, "$err", err)
+      status = false
+      return status
+    }
+    catch(IOErr err)
+    {
+      //TODO:: log here.
+      Logger.log.err("Test connection error", err)
+      Dialog.openErr(null, "$err", err)
+      status = false
+      return status
+    }
+    status = true
+    return status
+  }
+
+
+  Void uploadProjectToConn()
+  {
+    File? pbpfile := FileUtil.getProjectHomeDir(projectName).listFiles.find|File f->Bool|{return f.ext == "pbp"}
+    if(pbpfile != null)
+    {
+      //1 copy contents of zip to historical data for later use (sync)
+      File tempDir := FileUtil.getConnDir(projectName).createDir("${host.toUri.host}temp")
+      tempDir.deleteOnExit
+      pbpin := pbpfile.in
+
+      zipRead := Zip.read(pbpin)
+      File? entry
+      Str:File files := [:]
+      while((entry = zipRead.readNext()) != null)
+      {
+        File newfile := tempDir.createFile(entry.basename)
+        OutStream newfileout := newfile.out
+        entry.in.pipe(newfileout)
+        newfileout.close
+        files.add(entry.uri.toStr, newfile)
+      }
+      zipRead.close
+      pbpin.close
+
+      pbpout := pbpfile.out
+      zipWrite := Zip.write(pbpout)
+      files.each |v,k|
+      {
+        if(k.toUri != `/uploadhist/${host.toUri.host}/last.upload` && k.toUri!= `/uploadhist/${host.toUri.host}/last.db`)
+        {
+          OutStream newout := zipWrite.writeNext(k.toUri)
+          v.in.pipe(newout)
+          newout.close
+        }
+      }
+      histuploadout := zipWrite.writeNext(`/uploadhist/${host.toUri.host}/last.upload`)
+      files["/project.upload"].in.pipe(histuploadout)
+      histuploadout.close
+      histdbout := zipWrite.writeNext(`/uploadhist/${host.toUri.host}/last.db`)
+      files["/current.db"].in.pipe(histdbout)
+      histdbout.close
+      zipWrite.close
+      pbpout.close
+
+      Grid grid := ZincReader(files["/project.upload"].in).readGrid
+
+      //Check license for rec limit. if(grid.size >
+      ProjectBuilder pbp := (Service.find(PbpService#) as PbpService).pbp.val
+      if( ! pbp.checkLicenseLimit(grid.size))
+      {
+        return
+      }
+
+
+      commitRecs(grid)
+      Str:Str passwordFile := (FileUtil.getProjectHomeDir(projectName)+`pw.p`).readObj
+      passwordFile.each |pass, key|
+      {
+        plain := Crypto().decode(pass,"NOTsoSecretgrapeFruit#2334")
+        Logger.log.debug(plain.toStr)
+        result:=client.eval(""" passwordSet("${key}", "${plain}") """)
+        if(result.isErr)
+        {
+          Logger.log.debug(result.get.meta["err"])
+        }
+        Logger.log.debug(key)
+      }
+      addRecsToProject
+    }
+  }
+
+  Void syncConn()
+  {
+    File? pbpfile := FileUtil.getProjectHomeDir(projectName).listFiles.find|File f->Bool|{return f.ext == "pbp"}
+    if(pbpfile!=null)
+    {
+      //1 copy contents of zip to historical data for later use (sync)
+      File tempDir := FileUtil.getConnDir(projectName).createDir("${host.toUri.host}temp")
+      tempDir.deleteOnExit
+      pbpin := pbpfile.in
+
+      zipRead := Zip.read(pbpin)
+      File? entry
+      Str:File files := [:]
+      while((entry = zipRead.readNext()) != null)
+      {
+        File newfile := tempDir.createFile(entry.basename)
+        OutStream newfileout := newfile.out
+        entry.in.pipe(newfileout)
+        newfileout.close
+        files.add(entry.uri.toStr, newfile)
+      }
+      zipRead.close
+      pbpin.close
+      if(!files.containsKey("/uploadhist/${host.toUri.host}/last.db"))
+      {
+        return
+      }
+      Str:Map lastUploadedDb := files["/uploadhist/${host.toUri.host}/last.db"].readObj
+      Str:Map currentDb := files["/current.db"].readObj
+      Str:Record olderBro := lastUploadedDb["Record"]
+      Str:Record youngerBro := currentDb["Record"]
+
+      List toAdd := [,]
+      List toDelete := [,]
+      List toMod := [,]
+      Change[] changes := [,]
+      olderBro.each |v,k|
+      {
+        if(!youngerBro.containsKey(k))
+        {
+          toDelete.push(v)
+        }
+        else if((changes = ChangeUtil.compareRecs(v, youngerBro[k])).size > 0)
+        {
+          toMod.push(changes)
+        }
+      }
+      youngerBro.each |v,k|
+      {
+        if(!olderBro.containsKey(k))
+        {
+          toAdd.push(v)
+        }
+      }
+      //TODO: toAdd turns into Grid to upload
+      Str:Str passwordFile := (FileUtil.getProjectHomeDir(projectName)+`pw.p`).readObj
+      passwordFile.each |pass, key|
+      {
+        plain := Crypto().decode(pass,"NOTsoSecretgrapeFruit#2334")
+        client.eval("passwordSet(${Ref.fromStr(key)}, ${plain})")
+      }
+      Dict[] dicts := [,]
+      toAdd.each |add|
+      {
+        dicts.push(add->getDict)
+      }
+      Grid addGrid := Etc.makeDictsGrid(["commit":"add"], dicts)
+      commitRecs(addGrid)
+      //TODO: toDelete gets iterated and we'll add the trashTag to these recs...
+      toDelete.each |rec|
+      {
+        Result result := client.eval("readById(${rec->id}).diff({trash}).commit")
+        if(result.isErr)
+        {
+          Logger.log.err("Error removing rec ${result.get.meta}", null)
+        }
+      }
+      //TODO: toMod-> iterate through each List, each list are all the changes on said rec, combine to make one diff, commit that diff
+      toMod.each |changeset|
+      {
+        Str recid := changeset->first->target.toStr
+        Str evalstr := "readById($recid).diff({"
+        changeset->each |change, index|
+        {
+          if(change->target.toStr == recid && index != changeset->size->minus(1))
+          {
+            Tag targetTag := change->opts->first
+            if(targetTag.typeof == StrTag#)
+            {
+              evalstr = evalstr + change->opts->first->name.toStr + ":" + "\"" + change->opts->first->val.toStr + "\","
+            }
+            else
+            {
+              evalstr = evalstr + change->opts->first->name.toStr + ":" +  change->opts->first->val.toStr + ","
+            }
+          }
+          else
+          {
+            Tag targetTag := change->opts->first
+            if(targetTag.typeof == StrTag#)
+            {
+              evalstr = evalstr + change->opts->first->name.toStr + ":" + "\"" + change->opts->first->val.toStr + "\""
+            }
+            else
+            {
+              evalstr = evalstr + change->opts->first->name.toStr + ":" +  change->opts->first->val.toStr
+            }
+          }
+        }
+        evalstr = evalstr + "}).commit"
+        Result result := client.eval(evalstr)
+        if(result.isErr)
+        {
+          Logger.log.err("Error removing rec ${result.get.meta}", null)
+        }
+      }
+
+      pbpout := pbpfile.out
+      zipWrite := Zip.write(pbpout)
+      files.each |v,k|
+      {
+        if(k.toUri != `/uploadhist/${host.toUri.host}/last.upload` && k.toUri!= `/uploadhist/${host.toUri.host}/last.db`)
+        {
+          OutStream newout := zipWrite.writeNext(k.toUri)
+          v.in.pipe(newout)
+          newout.close
+        }
+      }
+      histuploadout := zipWrite.writeNext(`/uploadhist/${host.toUri.host}/last.upload`)
+      files["/project.upload"].in.pipe(histuploadout)
+      histuploadout.close
+      histdbout := zipWrite.writeNext(`/uploadhist/${host.toUri.host}/last.db`)
+      files["/current.db"].in.pipe(histdbout)
+      histdbout.close
+      zipWrite.close
+      pbpout.close
+    }
+  }
+
+
+  //TODO: could proably beef this up with Task framework...
+  **
+  ** Commit a group of records to this skyspark connection.
+  **
+  Bool commitRecs(Grid recs)
+  {
+    Result result := client.commit(recs)
+    if(result.isErr)
+    {
+      Logger.log.debug(result.get.toStr)
+    }
+    return result.isErr
+  }
+
+  **
+  ** Evaluate an expression and return the result.
+  **
+  Result eval(Str expr)
+  {
+    Result result := client.eval(expr)
+    return result
+  }
+  
+  **
+  **  Site, Equips, and Points to project (if they do not already exist)
+  **
+  override Record[] addRecsToProject()
+  {
+    if(client == null){return [,]}
+      Record[] recs := [,]
+    Result siteResult := client.eval("readAll(site)")
+    Result equipResult := client.eval("readAll(equip)")
+    Result pointResult := client.eval("readAll(point)")
+    Result weatherResult := client.eval("readAll(weather)")
+    Grid siteGrid := siteResult.get
+    Grid equipGrid := equipResult.get
+    Grid pointGrid := pointResult.get
+    Grid weatherGrid := weatherResult.get
+
+    siteGrid.each |row|
+    {
+      Tag[] tags := [,]
+      row.each |tagval, tagname|
+      {
+        if(tagval!=null)
+        {
+          tags.push(TagFactory.getTag(tagname,tagval))
+        }
+      }
+      Ref recid := tags.find|Tag tag->Bool|{return tag.name == "id"}.val
+      recs.push(Site{
+          id=recid
+          data=tags
+        })
+    }
+
+    equipGrid.each |row|
+    {
+      Tag[] tags := [,]
+      row.each |tagval, tagname|
+      {
+        if(tagval!=null)
+        {
+          tags.push(TagFactory.getTag(tagname,tagval))
+        }
+      }
+      Ref recid := tags.find|Tag tag->Bool|{return tag.name == "id"}.val
+      recs.push(Equip{
+          id=recid
+          data=tags
+        })
+    }
+
+    pointGrid.each |row|
+    {
+      Tag[] tags := [,]
+      row.each |tagval, tagname|
+      {
+        if(tagval!=null)
+        {
+          tags.push(TagFactory.getTag(tagname,tagval))
+        }
+      }
+      Ref recid := tags.find|Tag tag->Bool|{return tag.name == "id"}.val
+      recs.push(pbpcore::Point{
+          id=recid
+          data=tags
+        })
+    }
+
+    weatherGrid.each |row|
+    {
+      Tag[] tags := [,]
+      row.each |tagval, tagname|
+      {
+        if(tagval!=null)
+        {
+          tags.push(TagFactory.getTag(tagname,tagval))
+        }
+      }
+      Ref recid := tags.find|Tag tag->Bool|{return tag.name == "id"}.val
+      recs.push(pbpcore::Weather{
+          id=recid
+          data=tags
+        })
+    }
+    /*
+    Project? project := null
+    if(projectName != null)
+    {
+    project = Project(projectName)
+    recs.each |rec|
+    {
+    FileUtil.createRecFile(project,rec)
+    }
+    }
+    else
+    {
+    project = Project(this.projectName)
+    }*/
+    return recs
+  }
+
+  **
+  ** Store a password in the correct place.
+  **
+  override Void storePass()
+  {
+
+  }
+
+  **
+  ** Save connection to xml format.
+  **
+  override XElem toXml()
+  {
+    XElem rooter := XElem("conn"){XAttr("type","skyspark"),}
+    rooter.add(XElem("dis"){XAttr("val",dis),})
+    rooter.add(XElem("host"){XAttr("val",host),})
+    rooter.add(XElem("user"){XAttr("val",user),})
+    rooter.add(XElem("pass"){XAttr("val",Crypto().encode(pass, "waffle#stop%@#rtkke")),}) //TODO: encrypt methods here
+    return rooter
+  }
+
+  static SkysparkConn? fromXml(File file)
+  {
+    SkysparkConn? conn := null
+    InStream filein := file.in
+    XElem connElem := XParser(filein).parseDoc.root
+    if(connElem.get("type") == "skyspark")
+    {
+      Str dis := connElem.elems[0].get("val")
+      Str host := connElem.elems[1].get("val")
+      Str user := connElem.elems[2].get("val")
+      Str pass := Crypto().decode(connElem.elems[3].get("val"), "waffle#stop%@#rtkke")
+      conn = SkysparkConn(dis,host,user,pass)
+    }
+    filein.close
+    return conn
+  }
+
+  Void save()
+  {
+    FileUtil.createConnFile(FileUtil.getProjectHomeDir(projectName),this)
+  }
+}

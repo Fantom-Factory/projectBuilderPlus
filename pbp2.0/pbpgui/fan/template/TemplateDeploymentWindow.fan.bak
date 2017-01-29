@@ -1,0 +1,31 @@
+using pbpcore
+using fwt
+using gfx
+
+class TemplateDeploymentWindow : PbpWindow
+{
+  GridPane optionPane := GridPane{}
+  GridPane buttonWrapper := GridPane{numCols=3; halignPane = Halign.right}
+  EdgePane mainWrapper := EdgePane{}
+  Bool cancel := false
+  Text answerText := Text{text="0"} //TODO: Temporary
+
+  new make(Window? parent) : super(parent)
+  {
+
+  }
+
+  override Obj? open()
+  {
+    //TODO: Temporary implementation modify after version 1.1.0 is released
+    optionPane.add(GridPane{numCols=2;Label{text="How many times would you like to repeat this?"}, answerText,})
+    buttonWrapper.add(Button{text="Continue"; onAction.add|e|{e.window.close}})
+    buttonWrapper.add(Button{text="Close"; onAction.add|e|{cancel=true; e.window.close}})//TODO There is bug here
+    mainWrapper.center=optionPane
+    mainWrapper.bottom=buttonWrapper
+    content=mainWrapper
+    super.open()
+    return answerText.text
+  }
+
+}

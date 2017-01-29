@@ -1,0 +1,33 @@
+pbpdishandler::DisFunc
+{
+displayName="Discharge Temp"
+rules=[pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="discharge"
+val=""
+kind="Marker"
+}
+},pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="temp"
+val=""
+kind="Marker"
+}
+}]
+applies=[pbpdishandler::DisApplyTag
+{
+tagToFind=pbpcore::RefTag
+{
+name="equipRef"
+val=haystack::Ref("")
+kind="Ref"
+}
+},pbpdishandler::DisApplyUser
+{
+valueToApply="Discharge Temp"
+}]
+}

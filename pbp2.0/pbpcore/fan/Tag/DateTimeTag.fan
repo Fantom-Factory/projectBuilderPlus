@@ -1,0 +1,12 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2012, BAS Services & Graphics, LLC.
+// Licensed under the Academic Free License version 3.0
+//
+/////////////////////////////////////////////////////////////////////////////
+
+
+const class DateTimeTag : Tag{
+  const Str kind := "DateTime"
+  new make(|This| f) : super(f){}
+}

@@ -1,0 +1,32 @@
+() => do
+  // zinc file to import data from
+  zincFile: `io/data.zinc`
+  
+  // function used to add our new records
+  addRec: (msg, tags) => do
+
+    // log an info message
+    logInfo("import", msg)
+    // filter out any null or empty string tags
+    tags = tags.findAll x => x != null and x != ""
+
+    // adds temporary "imported" marker to all import so we can
+    // easily test and then nuke to trash to re-run
+    tags = tags.set("imported", marker())
+
+    // add as new record to the database
+    commit(diff(null, tags, {add}))
+  end
+
+  // read zinc file to grid
+  rows: ioReadZinc(zincFile)
+  
+  // insert rows to Folio db
+  rows.each row => addRec("processing: " + row->dis, row)  
+end
+/* --tags--
+---
+name:importZinc
+func
+---
+*/

@@ -1,0 +1,22 @@
+
+cmdAdd.name=Add NHaystack connection
+cmdAdd.icon=fan://pbpi/res/img/skysparkTabAdd24.png
+
+cmdDelete.name=Delete NHaystack connection
+cmdDelete.icon=fan://pbpi/res/img/skysparkTabRemove24.png
+
+cmdEdit.name=Edit NHaystack connection
+cmdEdit.icon=fan://pbpi/res/img/skysparkTabEdit24.png
+
+cmdReconnect.name=Reconnect NHaystack connection
+cmdReconnect.icon=fan://pbpi/res/img/connectionReset_24_24_32.png
+
+cmdSync.name=Sync NHaystack
+cmdSync.icon= fan://pbpi/res/img/skysparkSync_24_24_32.png
+
+
+cmdAddToProject.name=
+cmdAddToProject.icon=fan://icons/x16/circleArrowRight.png
+
+cmdAddSitesToProject.name=Import SEP to project
+cmdAddSitesToProject.icon=fan://icons/x16/circleArrowRight.png

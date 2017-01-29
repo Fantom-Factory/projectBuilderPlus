@@ -1,0 +1,42 @@
+using haystack
+
+@Serializable
+class TreeNode
+{
+  Ref id
+  TreeNode[] children := [,]
+
+  new make(|This| f)
+  {
+    f(this)
+  }
+
+  **
+  ** Add's a new child to this node
+  **
+  @Transient
+  TreeNode add(Ref newchild)
+  {
+    children.push(TreeNode{it.id=newchild; it.children=[,]})
+    return children.peek
+  }
+
+  **
+  ** Creates a TreeNode from a Json object
+  **
+  @Transient
+  static TreeNode fromJson(Str:Obj? data)
+  {
+    Ref theid := Ref.fromStr(data["id"])
+    TreeNode[] thechildren := [,]
+    if(data["children"]->size > 0 )
+    {
+      data["children"]->each |child|
+      {
+        thechildren.push(TreeNode.fromJson(child))
+      }
+    }
+    return TreeNode {id = theid; children = thechildren}
+  }
+
+}

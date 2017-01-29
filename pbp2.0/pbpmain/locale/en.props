@@ -1,0 +1,174 @@
+
+//Project Explorer Commands
+projectAdd.name=New Project..
+projectAdd.icon= fan://pbpi/res/img/projectTabAdd24.png
+projectAdd.accelerator=Ctrl+N
+
+projectRem.name=Delete Project
+projectRem.icon= fan://pbpi/res/img/removeAny24.png   //C:\dev3\fan\refactored_pbp\pbpicons\res\img\removeAny24.png
+projectRem.accelerator=Del
+
+projectOpen.name=Open Project..
+projectOpen.icon=fan://pbpi/res/img/openPbp_24_24_32.png  //C:\dev3\fan\refactored_pbp\pbpicons\res\img\openPbp_24_24_32.png
+projectOpen.accelerator=Ctrl+O
+
+projectSave.name=Save..
+projectSave.icon=fan://pbpi/res/img/saveAny_24_24_32.png   //C:\dev3\fan\refactored_pbp\pbpicons\res\img\saveAny_24_24_32.png
+projectSave.accelerator=Ctrl+S
+
+projectUpload.name=Upload Project..
+projectUpload.icon= fan://pbpi/res/img/skysparkTabUp16.png
+projectUpload.accelerator=F9
+
+projectSync.name=Sync Project..
+//TODO: Alper add icon here... projectSync.icon=
+projectSync.icon= fan://pbpi/res/img/projectTabRefresh16.png
+projectSync.accelerator=F10
+
+projectReset.name=Reset Project..
+//TODO: Alper add icon here... projectReset.icon=
+projectReset.icon=fan://pbpi/res/img/connectionReset_24_24_32.png //C:\dev3\fan\refactored_pbp\pbpicons\res\img\connectionReset_24_24_32.png
+projectReset.accelerator=Ctrl+Shift+R
+
+//Record Commands...
+addSite.name=Add Site
+addSite.icon=fan://pbpi/res/img/projectTabAdd24.png
+addSite.accelerator=Ctrl+Shift+S
+
+addEquip.name=Add Equip
+addEquip.icon=fan://pbpi/res/img/projectTabAdd24.png
+addEquip.accelerator=Ctrl+Shift+E
+
+addPoint.name=Add Point
+addPoint.icon=fan://pbpi/res/img/projectTabAdd24.png
+addPoint.accelerator=Ctrl+Shift+P
+
+addRec.name=Add Record
+//TODO: Alper add icon here... addRec.icon=  // Ignore this for now...
+addRec.accelerator=Ctrl+Shift+R
+
+remRec.name=Delete Record
+//TODO: Alper add icon here... remRec.icon=
+remRec.accelerator=Ctrl+Backspace
+remRec.icon= fan://pbpi/res/img/removeAny24.png
+
+
+editRec.name=Edit Record Properties
+//TODO: Alper add icon here... editRec.icon=
+editRec.accelerator=Ctrl+P
+editRec.icon = fan://pbpi/res/img/editAny_24_24_32.png                //C:\dev3\fan\refactored_pbp\pbpicons\res\img\editAny_24_24_32.png
+
+clearRecSel.name=Clear Record Selection
+//TODO: Alper add icons here.. clearRecSel.icon=
+clearRecSel.accelerator=Ctrl+C
+clearRecSel.icon= fan://pbpi/res/img/clearAny_24_24_32.png
+
+refreshTree.name=Refresh Tree
+refreshTree.icon=fan://icons/x16/refresh.png
+refreshTree.accelerator=Ctrl+R
+
+addTags.name=
+addTags.icon=fan://icons/x16/circleArrowLeft.png
+
+addTemplates.name=
+addTemplates.icon=fan://icons/x16/circleArrowLeft.png
+
+libEditor.name=Open Library Editor
+libEditor.icon= fan://pbpi/res/img/openPbp_24_24_32.png
+//libEditor.icon= TODO:ALPER
+
+newLib.name=New Library
+
+addLib.name=Import Library
+
+delLib.name=Delete Library
+
+defLib.name=Make Default
+
+editLib.name=Edit Library
+
+addTagsToLib.name=Add Tag
+addTagsToLib.icon=  fan://pbpi/res/img/projectTabAdd24.png
+//addTagsToLib.icon= TODO:ALPER
+
+saveTagsToLib.name=Save
+
+newTemplateType.name=Make New Template Type
+newTemplateType.icon=  fan://pbpi/res/img/projectTabAdd24.png
+//TODO: Alper newTemplateType.icon=
+
+newTemplate.name=New Template
+newTemplate.icon=  fan://pbpi/res/img/projectTabAdd24.png
+//TODO: Alper newTemplate.icon=
+
+deleteTemplate.name=Delete Template
+deleteTemplate.icon=  fan://pbpi/res/img/removeAny24.png
+//TODO: Alper deleteTemplate.icon=
+
+editTemplate.name= Edit Template
+editTemplate.icon=  fan://pbpi/res/img/editAny_24_24_32.png
+//TODO: Alper editTemplate.icon=
+
+editTemplateType.name=Edit TemplateType
+editTemplateType.icon = fan://pbpi/res/img/editAny_24_24_32.png
+
+deleteTempTypeFile.name=Delete Template Type File
+deleteTempTypeFile.icon= fan://pbpi/res/img/removeAny24.png
+//TODO: Alper deleteTempTypeFile.icon=
+
+deployTemplate.name=
+deployTemplate.icon=fan://icons/x16/circleArrowLeft.png
+
+addTemplateRecord.name=Add Template Record
+addTemplateRecord.icon=  fan://pbpi/res/img/projectTabAdd24.png
+
+removeHisTags.name=Remove His Tags
+removeHisTags.icon= fan://pbpi/res/img/removeAny24.png
+
+//TODO: Alper addTemplateRecord.icon=
+
+delTemplateRecord.name=Delete Template Record
+delTemplateRecord.icon=  fan://pbpi/res/img/removeAny24.png
+//TODO: Alper delTemplateRecord.icon=
+
+addLayer.name=Add Layer
+//TODO:Alper addLayer.icon=
+
+aboutInfo.name=About
+
+manageTrees.name=Manage Record Trees
+
+skyspark2niagara.name=SkySpark2Niagara Map
+
+manageHisRemove.name=Manage History removal
+
+newTreeCmd.name=New Record Tree Template
+editTreeCmd.name=Edit Record Tree Template
+
+removeTreeCmd.name=Remove Tree From Current Project
+removeTreeCmd.icon=fan://pbpi/res/img/RemoveTree_16_16_32.png
+
+deleteTreeCmd.name=Delete Tree Template
+
+addTreeCmd.name=Add Tree To Current Project
+
+makeNewHelpTicket.name=Submit Helpdesk Ticket
+
+tzHelper.name = Time Zone Window
+
+unitHelper.name=Units Window
+//TODO: Alper unitHelper.icon=
+
+addTagInEditor.name=
+addTagInEditor.icon=fan://icons/x16/circleArrowLeft.png
+
+openVersionControl.name=Open Version Control
+//TODO: Alper openVersionControl.icon=
+
+saveCurrentNode.name=Save
+//saveCurrentNode.accelerator=Ctrl+S
+
+updatePbp.name=Update
+
+templatize.name=
+templatize.icon=fan://icons/x16/circleArrowLeft.png

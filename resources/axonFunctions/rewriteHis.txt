@@ -1,0 +1,1 @@
+hisRewrite(readAll(his)) (val, ts) => [ts.toTimeZone("Chicago"), val]

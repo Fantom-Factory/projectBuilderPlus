@@ -1,0 +1,18 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2012, BAS Services & Graphics, LLC.
+// Licensed under the Academic Free License version 3.0
+//
+/////////////////////////////////////////////////////////////////////////////
+
+using pbpcore
+
+class LoginTest : Test
+{
+
+  Void testLoginPrompt()
+  {
+    //ConnLoginPrompt.open(Conn("test"))
+  }
+
+}

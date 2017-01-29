@@ -1,0 +1,25 @@
+pbpdishandler::DisFunc
+{
+displayName="Room Temp"
+rules=[pbpdishandler::DisRuleContains
+{
+tagToFind=pbpcore::MarkerTag
+{
+name="zone"
+val=""
+kind="Marker"
+}
+}]
+applies=[pbpdishandler::DisApplyTag
+{
+tagToFind=pbpcore::RefTag
+{
+name="equipRef"
+val=haystack::Ref("")
+kind="Ref"
+}
+},pbpdishandler::DisApplyUser
+{
+valueToApply="Room Temperature"
+}]
+}

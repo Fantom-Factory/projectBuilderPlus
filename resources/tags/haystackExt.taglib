@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <haystackConn val='' kind='Marker'/>
+ <haystackConnRef val='' kind='Ref'/>
+ <haystackCur val='' kind='Ref'/>
+ <haystackHis val='' kind='Ref'/>
+ <haystackPollFreq val='' kind='Number'/>
+ <haystackWrite val='' kind='Ref'/>
+ <haystackWriteLevel val='' kind='Number'/>
+</taglib>

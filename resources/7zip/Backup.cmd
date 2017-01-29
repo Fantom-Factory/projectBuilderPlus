@@ -1,0 +1,1 @@
+7za  a %TIME:~0,2%-%TIME:~3,2%-%TIME:~6,2%-%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_projBackups.7z  ..\..\projects\* 

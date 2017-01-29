@@ -1,0 +1,19 @@
+findStuckJobs(5min, "alper@bassg.com")
+
+/*
+2/6/2013
+
+Finds stuck jobs and send email to "emailTo" if stuck for longer than "time" duration
+
+Need a smtpConn properly defined
+*/
+(time, emailTo) => do
+  stuck : jobStatusAll().findAll job => job["jobStatus"] == "running" and job["runtime"].to(1sec) > time.to(1sec)
+  if( not stuck.isEmpty)
+  do
+    site : read(projMeta)->siteUri
+    body : ""
+    stuck.each row => body = body + "\n" + row.toStr
+    emailSend(null, emailTo, "Stuck job at "+site, body)
+  end
+end

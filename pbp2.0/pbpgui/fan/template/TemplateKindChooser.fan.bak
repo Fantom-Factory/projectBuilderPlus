@@ -1,0 +1,34 @@
+using fwt
+using gfx
+
+class TemplateKindChooser : PbpWindow
+{
+  EdgePane mainWrapper := EdgePane{}
+  Bool cont := false
+  new make(Window? parent):super(parent)
+  {
+  }
+
+  override Obj? open()
+  {
+    size = Size(300,280)
+    mainWrapper.top=Label{text="Which Template Type Would you like to use?"}
+    mainWrapper.center=Table{
+      model=TemplateTypeTableModel()
+      }
+    mainWrapper.bottom=ButtonGrid{numCols=2;
+       Button{text="Continue"; onAction.add|e|{cont=true; e.window.close;}},
+       Button{text="Cancel"; onAction.add|e|{e.window.close;}},
+     }
+    content = mainWrapper
+    super.open()
+    if(cont && mainWrapper.center->selected->size > 0)
+    {
+      return mainWrapper.center->model->getRows(mainWrapper.center->selected)->first
+    }
+    else
+    {
+      return null
+    }
+  }
+}

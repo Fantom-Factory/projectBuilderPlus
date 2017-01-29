@@ -1,0 +1,237 @@
+using fwt
+using gfx
+using pbpgui
+using pbpcore
+using projectBuilder
+
+
+mixin Compilable
+{
+  abstract Obj compile()
+}
+
+abstract class Description : EdgePane
+{
+  abstract Str title()
+  abstract Widget body()
+  abstract Str describe()
+}
+
+class RuleHolder : SashPane
+{
+  GridPane tagHolder := GridPane{}
+  new make(Tag[] tags) : super()
+  {
+    weights = [501,314]
+    add(
+    ScrollPane{tagHolder,}
+    )
+    add(TagExplorer
+      {
+       tagToolbar = GridPane{ it.numCols = 1; TagUtil(null).getTagLibCombo,}
+       tagTable = Table{multi=true}
+       tagTableModel = TagTableModel(FileUtil.getTagDir.listFiles.find|File f->Bool|{return f.ext=="taglib"})
+       addToProjectButton = Button{
+         onAction.add |e|
+         {
+           TagExplorer tagexp := e.widget->parent
+           tagexp.tagTableModel->getRows(tagexp.tagTable.selected)->each |tag|
+           {
+             tagHolder.add(SmartBox(tag){
+                 deleteButton.onAction.add |g|
+                 {
+                   Widget smartbox := g.widget.parent
+                   smartbox.parent.remove(smartbox)
+                   this.parent.relayout
+                   this.parent.parent.relayout
+                   this.parent.parent.parent.relayout
+                   this.parent.parent.parent.parent.relayout
+                   this.parent.parent.parent.parent.parent.relayout
+                   this.repaint
+                 }
+             })
+           }
+           tagHolder.relayout
+           tagHolder.parent.relayout
+           tagHolder.parent.parent.relayout
+           tagHolder.parent.parent.parent.relayout
+         }
+       }
+       })
+
+   tags.each |tag|
+           {
+             tagHolder.add(SmartBox(tag){
+                 deleteButton.onAction.add |g|
+                 {
+                   Widget smartbox := g.widget.parent
+                   smartbox.parent.remove(smartbox)
+                   this.parent.relayout
+                   this.parent.parent.relayout
+                   this.parent.parent.parent.relayout
+                   this.parent.parent.parent.parent.relayout
+                   this.parent.parent.parent.parent.parent.relayout
+                   this.repaint
+                 }
+             })
+           }
+  }
+}
+
+class UserValHolder : EdgePane
+{
+  GridPane valholder := GridPane{it.numCols=1;}
+  Button makeNewInput
+  new make(Str[] vals)
+  {
+    vals.each |val|
+    {
+      valholder.add(Text{text=val})
+    }
+   makeNewInput = Button{
+     text="Add Field"
+     onAction.add |e|
+     {
+     valholder.add(Text{text=""})
+     valholder.relayout
+     valholder.parent.relayout
+     valholder.parent.parent.relayout
+     valholder.parent.parent.parent.relayout
+     }
+   }
+   top=makeNewInput
+   center=ScrollPane{valholder,}
+  }
+}
+
+
+class FunctionDesc : Description, Compilable
+{
+  Str name := ""
+  Text disText
+  new make(Str name) : super()
+  {
+    this.name = name
+    disText = Text{text=this.name}
+    top = Label{text=title; font=Font { bold = true }}
+    center = body()
+  }
+  override Str title()
+  {
+    return "Function"
+  }
+
+  override Widget body()
+  {
+   gp := GridPane{
+    numCols=2;
+    Label{text="Name "},
+    disText,
+    }
+    return gp
+  }
+  override Str describe()
+  {
+    return "This is a Function Description"
+  }
+
+  override Obj compile()
+  {
+    return disText.text
+  }
+}
+
+class RuleDesc : Description, Compilable
+{
+  Tag[] tags
+  RuleHolder tagthing
+  new make(Tag[] tags) : super()
+  {
+    this.tags = tags
+    this.tagthing = RuleHolder(tags)
+     top = Label{text=title; font=Font { bold = true }}
+    center = body()
+  }
+  override Str title()
+  {
+    return "Rules"
+  }
+  override Widget body()
+  {
+    return ScrollPane{
+      EdgePane{
+        it.center = tagthing
+        },
+      }
+  }
+  override Str describe()
+  {
+    return "This is a Rule Description"
+  }
+  override Obj compile()
+  {
+    Tag[] tagsToReturn := [,]
+    tagthing.tagHolder.children.each |SmartBox box|
+    {
+      tagsToReturn.push(box.getTag())
+    }
+    return tagsToReturn
+  }
+}
+
+class ApplicationDesc : Description, Compilable
+{
+  Str[] uservals
+  Tag[] tagvals
+  RuleHolder tagholder
+  UserValHolder userholder
+  new make(Str[] uservals, Tag[] tagvals) : super()
+  {
+    this.uservals = uservals
+    this.tagvals = tagvals
+    tagholder = RuleHolder(this.tagvals)
+    userholder = UserValHolder(uservals)
+     top = Label{text=title; font=Font { bold = true }}
+    center = body()
+  }
+  override Str title(){return "Applications"}
+  override Widget body(){
+    return ScrollPane{
+      TabPane{
+      Tab{
+      text="User Values"
+      EdgePane{
+      it.center = userholder
+      },
+      },
+      Tab
+      {
+      text="Tag Values"
+      EdgePane{
+      it.center = tagholder
+      },
+      },
+    },
+    }
+  }
+  override Str describe()
+  {
+    return "This is a Application Description"
+  }
+  override Obj compile()
+  {
+    Str[] returnuser := [,]
+    Tag[] returntag := [,]
+    userholder.valholder.each |Text text|
+    {
+      returnuser.push(text.text)
+    }
+    tagholder.tagHolder.each |SmartBox box|
+    {
+      returntag.push(box.getTag)
+    }
+    return [returnuser, returntag]
+  }
+}
+
+

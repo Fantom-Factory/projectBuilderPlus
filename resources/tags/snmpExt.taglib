@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <snmpConn val='' kind='Marker'/>
+ <snmpConnRef val='' kind='Ref'/>
+ <snmpCur val='' kind='Str'/>
+ <snmpWrite val='' kind='Str'/>
+ <snmpPollFreq val='' kind='Number'/>
+ <snmpProtocol val='' kind='Str'/>
+ <snmpMibsUri val='' kind='Uri'/>
+ <snmpVersion val='' kind='Str'/>
+ <snmpCommunity val='' kind='Str'/>
+ <snmpSecurityLevel val='' kind='Str'/>
+ <snmpAuthProtocol val='' kind='Str'/>
+ <snmpPrivProtocol val='' kind='Str'/>
+ <snmpDesc val='' kind='Str'/>
+ <snmpMibType val='' kind='Str'/>
+</taglib>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <bacnetConn val='' kind='Marker'/>
+ <bacnetConnRef val='' kind='Ref'/>
+ <bacnetCur val='' kind='Str'/>
+ <bacnetWrite val='' kind='Str'/>
+ <bacnetWriteLevel val='' kind='Number'/>
+ <bacnetHis val='' kind='Str'/>
+ <bacnetVersion val='' kind='Str'/>
+ <bacnetDevice val='' kind='Str'/>
+ <bacnetPollFreq val='' kind='Number'/>
+ <bacnetCovTimeout val='' kind='Number'/>
+ <bacnetUseConfirmedCov val='' kind='Marker'/>
+ <bacnetEnableOutOfService val='' kind='Marker'/>
+ <bacnetInstance val='' kind='Number'/>
+ <bacnetForcePolling val='' kind='Marker'/>
+ <bacnetLocalAddress val='' kind='Str'/>
+ <bacnetInitInterval val='' kind='Number'/>
+</taglib>

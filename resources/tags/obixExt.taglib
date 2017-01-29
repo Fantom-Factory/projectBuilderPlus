@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <obixConn val='' kind='Marker'/>
+ <obixConnRef val='' kind='Ref'/>
+ <obixCur val='' kind='Uri'/>
+ <obixHis val='' kind='Uri'/>
+ <obixWrite val='' kind='Uri'/>
+ <obixWritable val='' kind='Number'/>
+ <obixLobby val='' kind='Uri'/>
+ <obixPollFreq val='' kind='Number'/>
+</taglib>

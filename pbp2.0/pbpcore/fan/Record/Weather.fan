@@ -1,0 +1,15 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2012, BAS Services & Graphics, LLC.
+// Licensed under the Academic Free License version 3.0
+//
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+const class Weather : Record
+{
+  const Str ext := ".weather"
+  new make(|This| f) : super(f){}
+
+}

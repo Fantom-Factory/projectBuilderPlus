@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <equipNum val='' kind='Num'/>
+ <disMacro val='' kind='Str'/>
+ <navName val='' kind='Str'/>
+ <star val='' kind='Marker'/>
+ <planet val='' kind='Marker'/>
+ <satellite val='' kind='Marker'/>
+ <starRef val='' kind='Ref'/>
+ <planetRef val='' kind='Ref'/>
+ <outer val='' kind='Marker'/>
+ <inner val='' kind='Marker'/>
+ <Aphelion val='' kind='Str'/>
+ <Perihelion val='' kind='Str'/>
+ <Semi-major-axis val='' kind='Str'/>
+ <Eccentricity val='' kind='Str'/>
+ <Orbital-period val='' kind='Str'/>
+ <Average-orbital-speed val='' kind='Str'/>
+</taglib>

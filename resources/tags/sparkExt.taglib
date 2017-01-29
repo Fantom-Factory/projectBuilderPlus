@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taglib version='2.0'>
+ <rule val='' kind='Marker'/>
+ <ruleAccessFilter val='' kind='Str'/>
+ <ruleCost val='' kind='Str'/>
+ <ruleFunc val='' kind='Str'/>
+ <ruleOn val='' kind='Str'/>
+ <ruleRef val='' kind='Ref'/>
+ <spark val='' kind='Marker'/>
+ <sparkTopic val='' kind='Marker'/>
+ <targetRef val='' kind='Ref'/>
+</taglib>

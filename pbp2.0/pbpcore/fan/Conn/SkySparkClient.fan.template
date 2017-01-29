@@ -1,0 +1,497 @@
+using fwt
+using gfx
+using web
+using xml
+using haystack
+using inet
+using pbpi
+
+class SkySparkClient
+{
+    Str sc := ""
+    Str project := ""
+   //Local Vars
+    Str? host := ""
+    Str? user := ""
+    Str? pass := ""
+    Str? proj := ""
+    Str? dis_name := ""
+
+    Bool connected := false
+
+    Record[] sitePool := [,]
+    Record[] equipPool := [,]
+    Record[] pointPool := [,]
+    Map siteMap := [:]
+    Map equipMap := [:]
+
+    Bool finished := false
+
+  Void makeLogInScreen(Window[] activeWindows)
+  {
+    echo("Waiting for Authentication... ");
+
+    //Event Handlers
+    hostChange := |Event e| {host = e.widget->text;}
+    userChange := |Event e| {user = e.widget->text;}
+    passChange := |Event e| {pass = e.widget->text;}
+    projChange := |Event e| {proj = e.widget->text;}
+    disChange := |Event e| {dis_name = e.widget->text;}
+
+    w := PbpWindow{
+    icon = pbpIcon
+    title = "Log in.."
+    //resizable = false
+    //size = Size(500,500)
+
+    content = InsetPane(12) {
+    content = EdgePane
+    { top = Label {text = "SkySpark Login"; halign = Halign.center;}
+      center = BorderPane {
+        content = GridPane{
+        numCols = 2
+        //Host Input Area
+        Label { text="Host:" },
+        Text { text=host; onModify.add(hostChange) },
+
+        //Username Input Area
+        Label { text="Username:" },
+        Text { text=user; onModify.add(userChange) },
+
+        //Password Input Area
+        Label { text="Password:" },
+        Text { text=pass; password = true; onModify.add(passChange) },
+
+         //Password Input Area
+        Label { text="Project:" },
+        Text { text= proj; onModify.add(projChange) },
+
+        //Dis Name Input Area
+        Label { text="Display Name:" },
+        Text { text= dis_name; onModify.add(disChange) },
+
+      }
+      }
+      bottom = GridPane{
+      numCols = 2
+      halignPane = Halign.right;
+      //Log_In Button
+        Button { text="Log In"; onAction.add {finished = skySparkAuth(host, user, pass, proj, activeWindows)} },
+        Button { text="Cancel"; onAction.add { activeWindows.peek.close }},
+        }
+
+    }
+
+
+  }
+  onClose.add |e| {/*return finished*/}
+  }
+  activeWindows.push(w)//move login screen to the most active window
+  w.open
+}
+
+*****************************
+**Sky Spark Log-In Script
+*****************************
+ private Bool skySparkAuth(Str host, Str username, Str password, Str project, Window[] activeWindows)
+{
+  //Local Vars
+  Str getAuthResponse := ""
+  Str postAuthResponse := ""
+  Str userSalt := ""
+  Str nonce := ""
+  Str secureCookie := ""
+  Bool loginOK:= false
+
+  echo( "Starting Get Request..")
+  try
+  {
+    testServer(`http://$host/`, 10sec)
+    //GET Request Authentication From SkySpark Host
+    authGet := WebClient(`http://$host/auth/$project/api?$username`)
+    authGet.socketOptions.receiveTimeout = 20sec
+    authGet.writeReq.readRes
+    Int conLength := authGet.resHeaders["Content-Length"].toInt
+    echo("$authGet.reqUri => $authGet.resCode $authGet.resPhrase\n" + authGet.resHeaders.join("\n"))
+    getAuthResponse = authGet.resStr[0..conLength-1] //retrive server response
+    if(authGet.resCode!=200)
+      echo( "\nGET Authentication.. FAIL\n" )
+    else
+      echo( "\nGET Authentication.. SUCCESS\n" )
+
+
+    userSalt = getAuthResponse.split('\n').get(1).split(':').get(1)
+    nonce = getAuthResponse.split('\n').get(3).split(':').get(1)
+
+    // compute salted hmac
+    hmac := Buf().print("$username:$userSalt").hmac("SHA-1", password.toBuf).toBase64
+    // now compute login digest using nonce
+    digest := "${hmac}:${nonce}".toBuf.toDigest("SHA-1").toBase64
+
+
+
+    echo( "Starting Post Request..\n" )
+    //POST Authentication Response To SkySpark Host
+    authPost := WebClient(`http://$host/auth/$project/api?$username`)
+    //authPost.socketOptions.receiveTimeout = 30sec
+    authPost.reqMethod = "POST"
+    authPost.postStr("nonce:$nonce\ndigest:$digest")
+    echo( "\n$authPost.reqUri => $authPost.resCode $authPost.resPhrase\n" + authPost.resHeaders.join("\n"))
+    conLength = authPost.resHeaders["Content-Length"].toInt
+    postAuthResponse = authPost.resStr[0..conLength-1] //retrieve server response
+
+    if(authPost.resCode!=200)
+      echo( "POST Authentication.. FAIL\nUser/Pass combination is incorrect")
+    else{
+      echo( "Login.. SUCCESS" ); loginOK = true;
+      }
+
+    secureCookie = postAuthResponse.split(':').get(1)
+    sc = secureCookie
+    echo("$sc")  //Debug line
+  } catch(Err e)
+  {
+    e.trace
+    Dialog.openInfo(null, "Error: $e")
+  }
+  //Exit on completed login
+  if(loginOK)
+  {
+   activeWindows.pop.close //close the current login screen
+   connected = true;
+  }
+  return loginOK
+}
+
+*************************************
+**Sky Spark Update Proj Build Script
+*************************************
+
+Void skySparkProjUpdate(ProjectBuilder? project := null)
+{
+  //Local Vars
+  Str postResponse := ""
+  Bool queryOK:= false
+  File siteFile := File.createTemp("siteFile",".xml")
+  File equipFile :=  File.createTemp("equipFile",".xml")
+  File pointFile :=  File.createTemp("pointFile",".xml")
+
+  sitePool.clear
+  equipPool.clear
+  pointPool.clear
+
+  echo( "Starting Site Update")
+  try
+  {
+    testServer(`http://$host/`, 10sec)
+    //POST Request Authentication From SkySpark Host
+    qPost := WebClient(`http://$host/api/$proj/eval?readAll(site)`)
+    qPost.socketOptions.receiveTimeout = 20sec
+    qPost.reqHeaders["Cookie"] = sc
+    qPost.reqHeaders["Accept"] = "text/xml"
+    qPost.writeReq.readRes
+    echo( "\n$qPost.reqUri => $qPost.resCode $qPost.resPhrase\n" + qPost.resHeaders.join("\n"))
+    //Int conLength := qPost.resHeaders["Content-Length"].toInt
+    postResponse = qPost.resStr //retrieve server response
+    echo(postResponse)
+    echo("\n--- site IO ---")
+    f := siteFile
+    // write text file (overwrites existing)
+    f.out.printLine("$postResponse").close
+    XmlReader siteReader := XmlReader(siteFile)
+    siteReader.parseToRecs
+    sitePool.addAll(siteReader.recPool)
+    if(qPost.resCode!=200)
+      echo( "POST FAIL")
+    else
+      echo( "QUERY SUCCESS" ); queryOK = true;
+
+
+    echo( "Starting Equip Update")
+    //POST Request Authentication From SkySpark Host
+    qPost = WebClient(`http://$host/api/$proj/eval?readAll(equip)`)
+    qPost.reqHeaders["Cookie"] = sc
+    qPost.reqHeaders["Accept"] = "text/xml"
+    qPost.writeReq.readRes
+    echo( "\n$qPost.reqUri => $qPost.resCode $qPost.resPhrase\n" + qPost.resHeaders.join("\n"))
+    //Int conLength := qPost.resHeaders["Content-Length"].toInt
+    postResponse = qPost.resStr //retrieve server response
+    echo("\n--- equip IO ---")
+    f = equipFile
+    // write text file (overwrites existing)
+    f.out.printLine("$postResponse").close
+    XmlReader equipReader := XmlReader(equipFile)
+    equipReader.parseToRecs
+    equipPool.addAll(equipReader.recPool)
+    if(qPost.resCode!=200)
+      echo( "POST FAIL")
+    else
+      echo( "QUERY SUCCESS" ); queryOK = true;
+
+
+    echo( "Starting Point Update")
+    //POST Request Authentication From SkySpark Host
+    qPost = WebClient(`http://$host/api/$proj/eval?readAll(point)`)
+    qPost.reqHeaders["Cookie"] = sc
+     qPost.reqHeaders["Accept"] = "text/xml"
+    qPost.writeReq.readRes
+    echo( "\n$qPost.reqUri => $qPost.resCode $qPost.resPhrase\n" + qPost.resHeaders.join("\n"))
+    //Int conLength := qPost.resHeaders["Content-Length"].toInt
+    postResponse = qPost.resStr //retrieve server response
+    echo("\n--- point IO ---")
+    f = pointFile
+    // write text file (overwrites existing)
+    f.out.printLine("$postResponse").close
+    XmlReader pointReader := XmlReader(pointFile)
+    pointReader.parseToRecs
+    pointPool.addAll(pointReader.recPool)
+    if(qPost.resCode!=200)
+      echo( "POST FAIL")
+    else
+      echo( "QUERY SUCCESS" ); queryOK = true;
+
+    siteMap.clear
+    equipMap.clear
+
+    sitePool.each |site|
+    {
+      siteMap.add(site.data["id"],site)
+    }
+
+    equipPool.each |equip|
+    {
+      equipMap.add(equip.data["id"],equip)
+    }
+
+    fixRelationship()
+  }
+  catch(Err e)
+  {
+    Dialog.openInfo(null, "Error: $e")
+  }
+}
+//traversing through equips to look at their sites... same with points
+//Actually would make more sense to go through sites and then find all the equips that have a relationship...
+//This should be alot faster...
+//This fixes equipRef's and siteRef's still leaving out some Ref's
+Void fixRelationship() //wish this method worked in real life
+{
+  Map recMap := Obj:Obj[:]
+  sitePool.each |site|
+  {
+    recMap.add(site.data["id"],site)
+  }
+  equipPool.each |equip|
+  {
+    recMap.add(equip.data["id"],equip)
+  }
+  pointPool.each |point|
+  {
+    recMap.add(point.data["id"],point)
+  }
+
+//fixing sites
+  sitePool.each |site|
+  {
+    site.fixRef(recMap)
+  }
+  equipPool.each | equip |
+  {
+    equip.fixRef(recMap)
+  }
+  pointPool.each | point |
+  {
+    point.fixRef(recMap)
+  }
+//fixing equipRef's
+
+
+}
+
+*****************************
+**Sky Spark Query Script
+*****************************
+Str skySparkQuery(Str query)
+{
+  //Local Vars
+  Str postResponse := ""
+  Bool queryOK:= false
+
+  echo( "Starting Query Response")
+  //POST Request Authentication From SkySpark Host
+  try
+  {
+    testServer(`http://$host/`, 10sec)
+    qPost := WebClient(`http://$host/api/$proj/eval?$query`)
+    qPost.socketOptions.receiveTimeout = 20sec
+    qPost.reqHeaders["Cookie"] = sc
+    qPost.writeReq.readRes
+    echo( "\n$qPost.reqUri => $qPost.resCode $qPost.resPhrase\n" + qPost.resHeaders.join("\n"))
+    //Int conLength := qPost.resHeaders["Content-Length"].toInt
+    postResponse = qPost.resStr //retrieve server response
+    //echo(postResponse)
+
+
+    if(qPost.resCode!=200)
+      echo( "POST FAIL")
+    else
+      echo( "QUERY SUCCESS" ); queryOK = true;
+      //echo( postResponse );
+    }
+    catch(Err e)
+    {
+      Dialog.openInfo(null, "Error: $e")
+    }
+    return postResponse;
+}
+
+Str skySparkCommit(Str query, Str tag)
+{
+  Str resp := skySparkQuery(query)
+  echo(resp)
+  if(resp.contains("err")){echo("ERROR")}
+  Int tagLoc := resp.splitLines[1].split(',').findIndex |Str target -> Bool| {return target == tag}
+  return resp.splitLines[2].split(',')[tagLoc]
+}
+
+*****************************
+**Sky Spark Commit Script
+*****************************
+ Bool commitScript(Project pup)
+ {
+   Dict[] diffs := [,]
+   pup.sitePool.each |site|{
+    diffs.push(site.getDict)
+   }
+   pup.equipPool.each |equip|{
+    diffs.push(equip.getDict)
+   }
+   pup.pointPool.each |point|{
+    diffs.push(point.getDict)
+   }
+
+   Grid diffGrid := Etc.makeDictsGrid(["commit":"add"],diffs)
+
+   Result result := Client.open(`http://$host/api/$proj/`,user,pass).commit(diffGrid)
+   while(result.isReady != true){
+   }
+   if(result.isErr ){
+   errMsg := result.get.meta.get("dis").toStr
+   Dialog.openErr(null,"Error: Project upload unsuccessful",Text{text=errMsg; multiLine = true; editable=false})
+   if(errMsg.contains("already exists")){
+      msg:="Your project may still contain records that have not been uploaded, would you like PBP to attempt to upload these records?"
+      if(Dialog.openQuestion(null,msg,null,Dialog.okCancel) == Dialog.ok)
+      {
+
+        noUploadRecs := [,].addAll(pup.sitePool).addAll(pup.equipPool).addAll(pup.pointPool).findAll |Record rec -> Bool| {return rec.uploaded == false}
+        if(noUploadRecs.size > 0)
+        {
+        diffs.clear
+        noUploadRecs.each |nrec|{
+        diffs.push(nrec->getDict)
+        }
+        dGrid := Etc.makeDictsGrid(["commit":"add"],diffs)
+        result2 := Client.open(`http://$host/api/$proj/`,user,pass).commit(dGrid)
+        while(result2.isReady != true) {}
+        if(result2.isErr){
+        errMsg2  := result2.get.meta.get("dis").toStr
+        Dialog.openErr(null,"Error: Project upload unsuccessful",Text{text=errMsg; multiLine = true; editable=false})
+        return false
+        }
+        else
+        {
+        Dialog.openInfo(null,"Upload completed!")
+        return true
+        }
+       }
+       else
+       {
+       Dialog.openInfo(null,"No new Records found")
+       Dialog.openInfo(null,"Upload stopped")
+       return false
+       }
+      }
+   }
+   return false
+   }
+   else
+   {
+   Dialog.openInfo(null,"Upload completed!")
+   //echo(result.get.meta.toStr)
+   return true
+   }
+  }
+
+*****************************
+**Sky Spark Sync Script
+*****************************
+/*
+ Bool syncScript(Project pup)
+ {
+   Dict[] diffs := [,]
+    pup.changeStack.each |change|
+    {
+      diffs.push(change.perform)
+    }
+
+   Grid diffGrid := Etc.makeDictsGrid(["commit":"update"],diffs)
+
+   Result result := Client.open(`http://$host/api/$proj/`,user,pass).commit(diffGrid)
+   while(result.isReady != true){
+   }
+   if(result.isErr ){
+   Dialog.openErr(null,"Error: Project Sync unsuccessful",Text{text=result.get.meta.toStr.replace("\n",
+   "/n"); multiLine = true; editable=false})
+   echo(result.get.meta.toStr)
+   return false
+   }
+   else
+   {
+   Dialog.openInfo(null,"Sync completed!")
+   echo(result.get.meta.toStr)
+   return true
+   }
+
+  }
+  */
+
+   XElem toXml()
+    {
+     recordRoot := XElem("conn")
+     recordRoot.add( XElem("host") {XAttr("val",host),     })
+     recordRoot.add( XElem("user") {XAttr("val",user),     })
+     recordRoot.add( XElem("project") {XAttr("val",proj),     })
+     recordRoot.add( XElem("dname")   {XAttr("val",dis_name), })
+    return recordRoot
+    }
+
+override Str toStr()
+{
+  return dis_name
+}
+
+  *************************************************************************************************
+  ****** Class Variables **************************************************************************
+  *************************************************************************************************
+
+  Image pbpIcon := PBPIcons.pbpIcon24
+
+  ** Check connection can be made to the server
+  ** If it fails, thows an error
+  public static Void testServer(Uri url, Duration timeout)
+  {
+      socket := TcpSocket()
+      try
+      {
+       socket.connect(IpAddr(url.host), url.port?:80, timeout)
+      } catch(Err e)
+      {
+        e.trace
+  throw(Err("Could not connect to the server.",e))
+      }
+      finally
+      {
+        socket.close
+      }
+  }
+}

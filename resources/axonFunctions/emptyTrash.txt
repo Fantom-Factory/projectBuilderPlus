@@ -1,0 +1,11 @@
+// emptyTrash.axon
+() => do
+  cpt : 0
+  readAll(trash).each record => do
+    cpt = cpt + 1
+    record.hisClear(null)
+    commit(diff(record, null, {remove}))
+  end
+  
+  return "Permanenly deleted "+cpt+" items from the trash."
+end

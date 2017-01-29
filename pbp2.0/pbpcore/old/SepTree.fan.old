@@ -1,0 +1,8 @@
+using haystack
+
+class SepTree : Tree
+{
+  override Str prefix := "Sep"
+  new make(Ref root, Str projectname): super(root, projectname){}
+
+}
