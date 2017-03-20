@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.xored.fanide.jdt.launching.FANJAVA_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/PBP - Lucene Core/lib/lucene-core-3.6.1.jar"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

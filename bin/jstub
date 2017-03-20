@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#
-# jstub: launcher for JStub program
-#
-
-. "${0%/*}/fanlaunch"
-fanlaunch Jstub "$@"

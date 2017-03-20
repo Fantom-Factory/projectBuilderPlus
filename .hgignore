@@ -1,0 +1,13 @@
+
+syntax: glob
+.git
+build
+
+fantom-1.0.65/adm
+fantom-1.0.65/bin
+fantom-1.0.65/etc
+fantom-1.0.65/examples
+fantom-1.0.65/lib
+fantom-1.0.65/src
+fantom-1.0.65/readme.html
+fantom-1.0.65/readme.md

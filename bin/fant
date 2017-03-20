@@ -1,8 +1,0 @@
-#!/bin/bash
-
-#
-# fant: unit tester
-#
-
-. "${0%/*}/fanlaunch" 
-fanlaunch Fant "$@"
