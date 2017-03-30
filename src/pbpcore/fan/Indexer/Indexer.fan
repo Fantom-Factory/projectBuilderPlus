@@ -5,7 +5,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-using luceneCore
 using [java] org.apache.lucene
 using [java] org.apache.lucene.analysis
 using [java] org.apache.lucene.analysis.standard

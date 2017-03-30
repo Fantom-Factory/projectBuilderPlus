@@ -19,7 +19,6 @@ class Build : build::BuildPod
                "web 1.0+",
                "xml 1.0+",
                "fwt 1.0+",
-               "luceneCore 3.6.1+",
                "pbplogging 1.0+",
                ]
 
