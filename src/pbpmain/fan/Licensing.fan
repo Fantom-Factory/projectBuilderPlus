@@ -21,16 +21,26 @@ internal class Licensing{
 
   private File? liscenseFile
   private File? requestFile
-  private Str? uuid
-  Str? name
-  Str? companyName
-  Str? host
-  Str? recLimit
-  Str? timeCreated
-  Str? key
-  Str? skysparkIds
+//  private Str? uuid
+//  Str? name
+//  Str? companyName
+//  Str? host
+//  Str? recLimit
+//  Str? timeCreated
+//  Str? key
+//  Str? skysparkIds
+//  Bool unlimitedSas := false
 
-  Bool unlimitedSas := false
+  private Str? uuid	:= "058080ef-3063-f580-c540-005056000010"
+  Str? name			:= "Project Builder Plus - Open Source"
+  Str? companyName	:= "Alien-Factory"
+  Str? host			:= "<host>"
+  Str? recLimit		:= Int.maxVal.toStr
+  Str? timeCreated	:= DateTime.now.toStr
+  Str? key			:= "???"
+  Str? skysparkIds	:= "*ANY*"
+
+  Bool unlimitedSas := true
 
   Str:Str skysparkHostIds := [:]
 
@@ -38,6 +48,8 @@ internal class Licensing{
 
   Bool checkLicense()
   {
+    return true
+		
     lookupLicenseFile
     lookupRequestFile
     if(liscenseFile == null && requestFile.exists)

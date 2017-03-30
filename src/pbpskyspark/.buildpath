@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="src" path="fan"/>
-	<buildpathentry kind="con" path="org.eclipse.dltk.launching.INTERPRETER_CONTAINER/com.xored.fanide.internal.debug.ui.launcher.GenericFanInstallType/fantom-1.0.65"/>
+	<buildpathentry kind="con" path="org.eclipse.dltk.launching.INTERPRETER_CONTAINER/com.xored.fanide.internal.debug.ui.launcher.GenericFanInstallType/fantom-1.0.69"/>
 </buildpath>

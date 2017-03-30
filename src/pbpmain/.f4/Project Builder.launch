@@ -10,10 +10,17 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="FAN_ENV" value="afFpm::FpmEnv"/>
+<mapEntry key="FAN_ENV_PODS" value="C:\Projects\BAM\project-builder-plus\src\pbpairship\build\pbpairship.pod;C:\Projects\BAM\project-builder-plus\src\pbpgui\build\pbpgui.pod;C:\Projects\Fantom-Factory\Fpm\build\afFpm.pod;C:\Projects\BAM\project-builder-plus\src\pbpaximport\build\pbpaximport.pod;C:\Projects\BAM\project-builder-plus\src\pbpdishandler\build\pbpdishandler.pod;C:\Projects\BAM\project-builder-plus\src\pbpmanager\build\pbpmanager.pod;C:\Projects\BAM\project-builder-plus\src\pbpexport\build\pbpexport.pod;C:\Projects\BAM\project-builder-plus\src\specialui\build\spui.pod;C:\Projects\BAM\project-builder-plus\src\pbpmain\build\projectBuilder.pod;C:\Projects\BAM\project-builder-plus\src\pbptools\build\pbptools.pod;C:\Projects\StackHub\Stackhub\build\shStackHub.pod;C:\Projects\BAM\project-builder-plus\src\pbpicons\build\pbpi.pod;C:\Projects\BAM\project-builder-plus\src\pbpzincexport\build\pbpzincexport.pod;C:\Projects\BAM\project-builder-plus\src\kayako\build\kayako.pod;C:\Projects\BAM\project-builder-plus\src\pbpskyspark\build\pbpskyspark.pod;C:\Projects\BAM\project-builder-plus\src\pbpobix\build\pbpobix.pod;C:\Projects\BAM\project-builder-plus\src\pbpfile\build\pbpfile.pod;C:\Projects\BAM\project-builder-plus\src\pbplogging\build\pbplogging.pod;C:\Projects\BAM\project-builder-plus\src\pbpquery\build\pbpquery.pod;C:\Projects\BAM\project-builder-plus\src\pbpsql\build\pbpsql.pod;C:\Projects\BAM\project-builder-plus\src\pbpcore\build\pbpcore.pod;C:\Projects\BAM\project-builder-plus\src\pbptagging\build\pbptagging.pod"/>
+<mapEntry key="FPM_ALL_PODS" value="true"/>
+<mapEntry key="FPM_TARGET" value="projectBuilder"/>
+</mapAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
+<stringAttribute key="org.eclipse.dltk.launching.INTERPRETER_CONTAINER" value="org.eclipse.dltk.launching.INTERPRETER_CONTAINER/com.xored.fanide.internal.debug.ui.launcher.GenericFanInstallType/fantom-1.0.69"/>
 <stringAttribute key="project" value="PBP - Project Builder"/>
 <stringAttribute key="workingDir" value="C:\Projects\BAM\project-builder-plus"/>
 </launchConfiguration>

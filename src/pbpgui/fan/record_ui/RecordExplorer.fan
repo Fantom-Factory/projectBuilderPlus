@@ -172,7 +172,7 @@ const class RecordExpPaginationHandler : Actor
       limit = totalSize
     }
 
-    if (totalSize >= limit)
+    if (totalSize >= limit && limit != 0)
     {
       pages = (totalSize / limit)
       if (totalSize - (limit * pages) > 0){

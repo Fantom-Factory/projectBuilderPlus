@@ -34,11 +34,12 @@ class Main
     {
       Logger.log.info("Starting pbp ...")
 
-      ActorPeon(Main.mainActorPool)
-      {
-        config=CheckForUpdatesConfig()
-        options=["interval":15min]
-      }.send(null)
+		// SLIMER - don't bother looking for updates anymore!
+//      ActorPeon(Main.mainActorPool)
+//      {
+//        config=CheckForUpdatesConfig()
+//        options=["interval":15min]
+//      }.send(null)
 
       ProjectBuilder.start()
 

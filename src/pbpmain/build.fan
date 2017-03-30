@@ -11,10 +11,10 @@ class Build : build::BuildPod
   {
     podName = "projectBuilder"
     summary = "This utility is a project builder."
-    version = Version([1,3,9])
+    version = Version([1,3,9,1])
     meta = ["pbp.name":"Project Builder Plus"]
     depends = ["sys 1.0+",
-               "pbpcore 1.0+",
+               "pbpcore 1.2+",
                "pbpgui 1.0+",
                "pbpmanager 1.0+",
                //"pbpairship 1.0",
@@ -24,7 +24,9 @@ class Build : build::BuildPod
                "gfx 1.0+",
                "pbpi 1.0+",
                "kayako 1.0+",
-               "pbplogging 1.0+"
+               "pbplogging 1.0+",
+		
+               "haystack 1.9",
                ]
 
     srcDirs = [`fan/`,
