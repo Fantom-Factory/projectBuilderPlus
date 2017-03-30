@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.xored.fanide.launching.FanLaunchConfigurationType">
+<booleanAttribute key="ATTR_PROJECTS_CUSTOM_SELECTION" value="false"/>
+<stringAttribute key="fanMainClass" value="Main"/>
+<stringAttribute key="mainScript" value=""/>
+<stringAttribute key="nature" value="com.xored.fanide.core.nature"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/PBP - Project Builder"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
+</listAttribute>
+<stringAttribute key="project" value="PBP - Project Builder"/>
+<stringAttribute key="workingDir" value="C:\Projects\BAM\project-builder-plus"/>
+</launchConfiguration>

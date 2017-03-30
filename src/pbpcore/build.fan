@@ -14,7 +14,7 @@ class Build : build::BuildPod
     version = Version([1,2,1])
     depends = ["sys 1.0+",
                "concurrent 1.0+",
-               "haystack 1.0+",
+               "haystack 1.9",
                "util 1.0+",
                "web 1.0+",
                "xml 1.0+",

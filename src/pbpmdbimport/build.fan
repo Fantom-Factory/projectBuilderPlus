@@ -5,8 +5,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#!/usr/bin/env fan
-
 class Build : build::BuildPod
 {
   new make()
@@ -18,16 +16,17 @@ class Build : build::BuildPod
     depends = ["sys 1.0",
                "fwt 1.0",
                "gfx 1.0",
-               "pbpi 1.0+",
-               "concurrent 1.0",
-               "projectBuilder 1.0+",
-               "pbpcore 1.0+",
-               "pbpgui 1.0+",
-               "pbplogging 1.0",
-               "pbpobix 1.0+",
-               "haystack 1.0+",
-               "spui 1.0+",
                "web 1.0",
+               "concurrent 1.0",
+
+               "pbpi 1.1+",
+               "projectBuilder 1.3+",
+               "pbpcore 1.2+",
+               "pbpgui 1.2+",
+               "pbplogging 1.0",
+               "pbpobix 1.2+",
+               "haystack 1.9+",
+               "spui 1.2+",
                "haystack 1.0+",
                ]
 
@@ -35,8 +34,7 @@ class Build : build::BuildPod
                `test/`
               ]
 
-		// FIXME SLIMER put java/ back in
-//	javaDirs = [`java/`]
+	javaDirs = [`java/`]
 
     resDirs = [`locale/`]
     meta = ["pbpMenuExt": ""]

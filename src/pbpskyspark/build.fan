@@ -18,11 +18,10 @@ class Build : build::BuildPod
                "gfx 1.0",
                "pbpi 1.0+",
                "concurrent 1.0",
-        
-//               "airship 1.0",	// TODO SLIMER - which do we use? pbpairship or airship?
-               "airship 1.0",
-		
-               "haystack 1.9",
+
+               "airship 1.0",	// TODO SLIMER Where is this src code?
+
+               "haystack 1.9 - 1.9",
                "xml 1.0",
                "spui 1.0+",
                "projectBuilder 1.0+",
