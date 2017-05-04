@@ -1,35 +1,27 @@
-# Welcome to Project Builder Plus Open Source Page#
+# Project Builder Plus
+---
 
-This is just brief introduction what this application is.
-
-### What is this repository for? ###
-This source is for Project Builder Plus as an open source to the project haystack community.
-
-We have videos located here.  http://wiki.bassg.com/display/PBP
-
-Connect with obix to Niagara generate haystack DB and push DB to SkySpark
-
-Generate nHaystack import DB and push to SkySpark.
-
-Use cases of this application can further improve the project haystack usage and tooling within the IoT industry.
-
-Licensing is Academic 3.0. Feel free to clone branch add remove create anything with this code.
-
-If you are using haystack please consider signing up to Project-Haystack.org become a member pay dues, be a sponsor at haystack connect conference.
-
-If you really like what we have done here, you can pay our dues for Project Haystack too. :D
+[![Written in: Fantom](http://img.shields.io/badge/written%20in-Fantom-lightgray.svg)](http://fantom-lang.org/)
+![pod: v1.3](http://img.shields.io/badge/pod-v1.3-yellow.svg)
+![Licence: Academic 3.0](http://img.shields.io/badge/licence-ISC-blue.svg)
 
 
-### How do I get set up? ###
+## The SlimerDude Open Source Branch
 
-Download compile and run.
+This branch of PB+ from [BASSG](https://bassg.com/) disables licence checks, allowing you can use it unhindered!
 
-Disable licensing for main.fan class. ;)
+See the [DOWNLOADS](https://bitbucket.org/SlimerDude/project-builder-plus/downloads/) page for distribution details.
 
-### Contribution guidelines ###
 
-Just use the issue tracker located in bitbucket
 
-### Who do I talk to? ###
+## What is Project Builder Plus?
 
-Contact us via BASSG.com
+PB+ is a tool for creating SkySpark projects with the following features:
+
+ - Connects to Niagara with obix to generate haystack DB
+ - Generate nHaystack import DB
+ - Push to DB to SKySpark
+
+PB+ usage is explained in these [tutorial videos](http://wiki.bassg.com/display/PBP).
+
+If you find PB+ useful, then please give back to the [Project Haystack](http://project-haystack.org/) community!
