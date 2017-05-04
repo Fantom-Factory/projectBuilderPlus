@@ -8,9 +8,9 @@
 
 ## The SlimerDude Open Source Branch
 
-This branch of PB+ from [BASSG](https://bassg.com/) disables licence checks, allowing you can use it unhindered!
+This branch of [PB+](https://bassg.com/solutions/software/analytics/pbp-by-bassg.html) from [BASSG](https://bassg.com/) disables licence checks, allowing you can use it unhindered!
 
-See the [DOWNLOADS](https://bitbucket.org/SlimerDude/project-builder-plus/downloads/) page for distribution details.
+See the [DOWNLOADS](https://bitbucket.org/SlimerDude/project-builder-plus/downloads/) page for pre-compiled, ready-to-use distributions.
 
 
 
