@@ -10,7 +10,7 @@
 
 This fork of [PB+](https://bassg.com/solutions/software/analytics/pbp-by-bassg.html) from [BASSG](https://bassg.com/) disables licence checks, allowing you to use it unhindered!
 
-See the [DOWNLOADS](https://bitbucket.org/SlimerDude/project-builder-plus/downloads/) page for a pre-compiled, ready-to-use distribution.
+See the [RELEASES](/Fantom-Factory/projectBuilderPlus/releases) page for a pre-compiled, ready-to-use distribution.
 
 
 
